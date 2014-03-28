@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title= name + ' preview'
+    link(rel='icon' type='image/x-icon' href='/images/webkite_favicon.ico')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    script(type='application/javascript' id='webkite-results').
+      var webkiteConfig = {
+        theme         : "Webkite-Themes/#{name}",
+        style         : "light",
+        datasetId     : "e5582c49-8f7f-41ae-b17f-2f21b78ef956",
+        themeServer   : "http://localhost:3000",
+        resultsServer : "http://results.webkite.org",
+        env           : "develop",
+
+        perPage       : 12,
+        sorts         : ["Last Name"],
+        filters       : ["Department", "University", "Degree"]
+      };
+
+      (function() {
+        var wk = document.createElement('script');
+        wk.type = 'application/javascript';
+        wk.src = '//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js';
+        wk.setAttribute('data-main', 'http://jafar.webkite.org/stable/webkite-embed.min.js');
+        wk.async = true;
+        document.body.appendChild(wk);
+      })();
