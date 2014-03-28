@@ -13,3 +13,8 @@ block content
     a(href="https://auth.webkite.org", target="_blank", title="webkite auth")
       | WebKite Account
     |  so Iago can communicate with our servers on your behalf.
+  p
+    | Hey, it looks like you've already got some themes:
+  each theme in themes
+    a(href="/themes/#{theme}/preview")= theme
+    br
