@@ -12,5 +12,6 @@ pids
 logs
 results
 
+contact-list-landscape
 npm-debug.log
 node_modules

@@ -2,12 +2,11 @@ doctype html
 html
   head
     title= name + ' preview'
-    link(rel='icon' type='image/x-icon' href='/images/webkite_favicon.ico')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     script(type='application/javascript' id='webkite-results').
       var webkiteConfig = {
-        theme         : "Webkite-Themes/#{name}",
+        theme         : "iago/#{theme}",
         style         : "light",
         datasetId     : "e5582c49-8f7f-41ae-b17f-2f21b78ef956",
         themeServer   : "http://localhost:3000",
