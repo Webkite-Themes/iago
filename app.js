@@ -36,7 +36,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/themes/:theme/preview', theme.preview);
-//app.get('/themes/iago/:theme/master/all.js', theme.theme);
+app.get('/themes/iago/:theme/master/all.js', theme.theme);
 app.get('/themes/iago/:theme/master/assets/:file', theme.asset);
 
 http.createServer(app).listen(app.get('port'), function(){
