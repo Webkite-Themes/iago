@@ -51,9 +51,9 @@ exports.asset = function(req, res){
 
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Expires', 0);
-  res.set('Content-Type', 'text/css');
 
   if (filename.split('.').pop() === 'css') {
+    res.set('Content-Type', 'text/css');
     fs.exists(filepath, function(exists) {
       if (exists) {
         res.sendfile(filepath);
