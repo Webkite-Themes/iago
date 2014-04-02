@@ -4,6 +4,7 @@
  */
 
 var express = require('express');
+var load = require('./load');
 var routes = require('./routes');
 var theme = require('./routes/themes');
 var http = require('http');
