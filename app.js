@@ -6,14 +6,13 @@
 var express = require('express');
 var load = require('./load');
 var routes = require('./routes');
-var theme = require('./routes/themes');
 var http = require('http');
 var path = require('path');
 
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 1460);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.favicon(path.join(__dirname, 'public', 'images', 'webkite_favicon.ico')));
@@ -36,9 +35,10 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/themes/:theme/preview', theme.preview);
-app.get('/themes/iago/:theme/master/all.js', theme.theme);
-app.get('/themes/iago/:theme/master/assets/:file', theme.asset);
+app.get('/oauth/callback', routes.auth.callback);
+app.get('/themes/:theme/preview', routes.theme.preview);
+app.get('/themes/iago/:theme/master/all.js', routes.theme.theme);
+app.get('/themes/iago/:theme/master/assets/:file', routes.theme.asset);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

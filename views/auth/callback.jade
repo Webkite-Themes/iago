@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= 'Iago'
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    p logging you in, you'll be redirected momentarily
+    script(src='http://code.jquery.com/jquery-2.1.0.min.js', type='application/javascript')
+    script(src="../javascripts/auth.js" type="application/javascript")
+    script(type="application/javascript").
+      WebkiteAuth.callback();

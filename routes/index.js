@@ -1,5 +1,7 @@
 
 var themes = require('../load').themes;
+var themeRoutes = require('./themes');
+var authRoutes = require('./auth');
 
 /*
  * GET home page.
@@ -8,3 +10,6 @@ var themes = require('../load').themes;
 exports.index = function(req, res){
   res.render('index', { title: 'Iago (WebKite)', themes: themes });
 };
+
+exports.theme = themeRoutes;
+exports.auth = authRoutes;

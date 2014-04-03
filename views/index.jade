@@ -9,12 +9,16 @@ block content
     | New to Iago? Check out an 
     a(href="http://webkite-themes.github.io", target="_blank", title="iago presentation") introductory presentation
   p
-    | To get started, you'll need to log in with your 
-    a(href="https://auth.webkite.org", target="_blank", title="webkite auth")
-      | WebKite Account
+    | To get started, you'll need to
+    button.webkite-auth-login(title="webkite auth")
+      | log in with your WebKite Account
     |  so Iago can communicate with our servers on your behalf.
   p
     | Hey, it looks like you've already got some themes:
   each theme in themes
     a(href="/themes/#{theme}/preview")= theme
     br
+
+  script#oauth(src="javascripts/auth.js" type="application/javascript")
+  script#oauth-config(type="application/javascript").
+    WebkiteAuth.clientId = '18f9826c9fe02726f5b5eed6506ccabaedd9eda65f6a80ff819e5f755332ee6e';
