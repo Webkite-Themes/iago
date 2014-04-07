@@ -6,6 +6,7 @@ var WebkiteAuth = {
   userDataURL: 'http://localhost:9000/me',
   clientId: null,
   redirectUri: 'http://localhost:1460/oauth/callback',
+  afterLoginUrl: 'http://localhost:1460',
   generateStateToken: function() {
     return Math.random().toString(36).substr(2);
   },
@@ -63,7 +64,7 @@ var WebkiteAuth = {
           name: userData.name,
           email: userData.email
         }));
-        window.location = window.location.origin;
+        window.location = WebkiteAuth.afterLoginUrl;
       }
     });
     localStorage.setItem('webkiteAuthToken', JSON.stringify({
