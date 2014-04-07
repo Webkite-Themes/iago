@@ -15,9 +15,11 @@ fs.mkdir(path.join(process.cwd(), '.iago'), function(err) {
     if (err) {
       if (err.code === 'ENOENT') {
         fs.writeFile(configPath, JSON.stringify({}));
+        config = {};
       } else { throw err; }
+    } else {
+      config = JSON.parse(data);
     }
-    config = JSON.parse(data);
   });
 });
 
