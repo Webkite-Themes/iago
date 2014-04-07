@@ -6,7 +6,20 @@ var fs = require('fs'),
 
 var folders,
     themes,
+    iago,
     config;
+
+fs.mkdir(path.join(process.cwd(), '.iago'), function(err) {
+  var configPath = path.join(process.cwd(), '.iago', 'config.json');
+  fs.readFile(configPath, function(err, data) {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        fs.writeFile(configPath, JSON.stringify({}));
+      } else { throw err; }
+    }
+    config = JSON.parse(data);
+  });
+});
 
 folders = fs.readdirSync(process.cwd());
 
@@ -18,8 +31,8 @@ themes = _(folders).reject(function(file) {
   return reject || !fs.existsSync(path.join(file, 'manifest.yml'));
 }).value();
 
-//config = fs.readFileSync();
 
 module.exports = {
+  config: config,
   themes: themes
 };
