@@ -37,8 +37,9 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/oauth/callback', routes.auth.callback);
 app.get('/themes/:theme/preview', routes.theme.preview);
-app.get('/themes/iago/:theme/master/all.js', routes.theme.theme);
-app.get('/themes/iago/:theme/master/assets/:file', routes.theme.asset);
+app.get('/themes/iago/:theme/:version/all.js', routes.theme.theme);
+app.get('/themes/iago/:theme/:version/assets/:file', routes.theme.asset);
+app.get('/themes/iago/:theme/:version/manifest.json', routes.theme.manifest);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

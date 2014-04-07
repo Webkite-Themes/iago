@@ -70,7 +70,20 @@ exports.asset = function(req, res){
   }
 };
 
-exports.theme = function(req, res){
+exports.manifest = function(req, res) {
+  var themeDir = path.join(process.cwd(), req.params.theme),
+      manifestPath = path.join(themeDir, 'manifest.yml'),
+      manifest;
+
+  manifest = yaml.safeLoad(fs.readFileSync(manifestPath, {encoding: 'utf8'}));
+
+  res.set('Content-Type', 'application/json');
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Expires', 0);
+  res.send(JSON.stringify(manifest));
+}
+
+exports.theme = function(req, res) {
   var themeDir = path.join(process.cwd(), req.params.theme),
       manifestPath = path.join(themeDir, 'manifest.yml'),
       files,
