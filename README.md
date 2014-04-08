@@ -28,7 +28,7 @@ npm install iago
 To start the theme development client, run
 
 ```
-npm iago start
+npm start iago
 ```
 
 Then open a browser and visit [localhost:1460](http://localhost:1460) to get started!
