@@ -2,37 +2,55 @@
 
 var fs = require('fs'),
     path = require('path'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    rsvp = require('rsvp');
 
-var folders,
+var themePath,
+    configPath,
+    folders,
     themes,
-    iago,
     config;
 
-fs.mkdir(path.join(process.cwd(), '.iago'), function(err) {
-  var configPath = path.join(process.cwd(), '.iago', 'config.json');
-  fs.readFile(configPath, function(err, data) {
-    if (err) {
-      if (err.code === 'ENOENT') {
-        fs.writeFile(configPath, JSON.stringify({}));
-        config = {};
-      } else { throw err; }
-    } else {
-      config = JSON.parse(data);
-    }
-  });
-});
+themePath = (function() {
+  var segments = process.cwd().split(path.sep);
+  if (segments.indexOf('node_modules') > -1) {
+    return segments.slice(0,segments.indexOf('node_modules')).join(path.sep);
+  } else {
+    return process.cwd();
+  }
+})();
 
-folders = fs.readdirSync(process.cwd());
+configPath = path.join(themePath, '.iago', 'config.json');
+try {
+  fs.mkdirSync(path.join(themePath, '.iago'));
+} catch(err) {
+  // swallow error if it's just '.iago directory already exists'
+  if (!(err.code === 'EEXIST' && err.path === path.dirname(configPath))) {
+    throw err;
+  }
+} finally {
+  // yeah this is ugly, all the try/catch
+  try {
+    config = JSON.parse(fs.readFileSync(configPath));
+  } catch(err) {
+    if (err.code === 'ENOENT') {
+      fs.writeFileSync(configPath, JSON.stringify({}));
+      config = {};
+    } else { throw err; }
+  }
+}
+
+config.themePath = themePath;
+
+folders = fs.readdirSync(themePath);
 
 themes = _(folders).reject(function(file) {
-  var stats = fs.statSync(file),
+  var stats = fs.statSync(path.join(themePath, file)),
       isTheme = false,
       reject = false;
   reject = (stats.isDirectory() ? false : true);
-  return reject || !fs.existsSync(path.join(file, 'manifest.yml'));
+  return reject || !fs.existsSync(path.join(themePath, file, 'manifest.yml'));
 }).value();
-
 
 module.exports = {
   config: config,

@@ -6,7 +6,8 @@ var sass = require('node-sass'),
     fs = require('fs'),
     yaml = require('js-yaml'),
     _ = require('lodash'),
-    rsvp = require('rsvp');
+    rsvp = require('rsvp'),
+    config = require('../load').config;
 
 function findFiles(manifest, type, themeDir) {
   var templates = _(manifest[type]).map(function(filename) {
@@ -45,7 +46,7 @@ exports.preview = function(req, res){
 };
 
 exports.asset = function(req, res){
-  var themeDir = path.join(process.cwd(), req.params.theme),
+  var themeDir = path.join(config.themePath, req.params.theme),
       filename = req.params.file,
       filepath = path.join(themeDir, filename);
 
@@ -71,7 +72,7 @@ exports.asset = function(req, res){
 };
 
 exports.manifest = function(req, res) {
-  var themeDir = path.join(process.cwd(), req.params.theme),
+  var themeDir = path.join(config.themePath, req.params.theme),
       manifestPath = path.join(themeDir, 'manifest.yml'),
       manifest;
 
@@ -84,7 +85,7 @@ exports.manifest = function(req, res) {
 }
 
 exports.theme = function(req, res) {
-  var themeDir = path.join(process.cwd(), req.params.theme),
+  var themeDir = path.join(config.themePath, req.params.theme),
       manifestPath = path.join(themeDir, 'manifest.yml'),
       files,
       manifest;
