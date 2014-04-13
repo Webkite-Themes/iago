@@ -35,7 +35,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/oauth/callback', routes.auth.callback);
+app.get('/themes', routes.theme.index);
+app.post('/themes', routes.theme.create);
 app.get('/themes/:theme/preview', routes.theme.preview);
 app.get('/themes/iago/:theme/:version/all.js', routes.theme.theme);
 app.get('/themes/iago/:theme/:version/assets/:file', routes.theme.asset);

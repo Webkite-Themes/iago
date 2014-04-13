@@ -7,7 +7,7 @@ var sass = require('node-sass'),
     yaml = require('js-yaml'),
     _ = require('lodash'),
     rsvp = require('rsvp'),
-    config = require('../load').config;
+    app = require('../load');
 
 function findFiles(manifest, type, themeDir) {
   var templates = _(manifest[type]).map(function(filename) {
@@ -41,12 +41,33 @@ function wrapTemplates(templates) {
   return js;
 }
 
-exports.preview = function(req, res){
+exports.index = function(req, res) {
+  res.send(app.themes);
+};
+
+exports.create = function(req, res) {
+  var themeDir = path.join(app.config.themePath, req.params.name),
+      manifest = yaml.safeDump({ templates: 'results.handlebars.js' }),
+      results = "<p>This is the main 'results' handlebars template. Replace this message with your awesome results view!</p>";
+  fs.mkdir(themeDir, function(err) {
+    if (err) { throw err; }
+    fs.writeFile(path.join(themeDir, 'manifest.yml'), manifest, function(err) {
+      if (err) { throw err; }
+    });
+    fs.writeFile(path.join(themeDir, 'results.hbs'), results, function(err) {
+      if (err) { throw err; }
+    });
+  });
+  app.themes.push(req.params.name);
+  res.send(app.themes);
+};
+
+exports.preview = function(req, res) {
   res.render('themes/preview', { theme: req.params.theme });
 };
 
 exports.asset = function(req, res){
-  var themeDir = path.join(config.themePath, req.params.theme),
+  var themeDir = path.join(app.config.themePath, req.params.theme),
       filename = req.params.file,
       filepath = path.join(themeDir, filename);
 
@@ -72,7 +93,7 @@ exports.asset = function(req, res){
 };
 
 exports.manifest = function(req, res) {
-  var themeDir = path.join(config.themePath, req.params.theme),
+  var themeDir = path.join(app.config.themePath, req.params.theme),
       manifestPath = path.join(themeDir, 'manifest.yml'),
       manifest;
 
@@ -85,7 +106,7 @@ exports.manifest = function(req, res) {
 }
 
 exports.theme = function(req, res) {
-  var themeDir = path.join(config.themePath, req.params.theme),
+  var themeDir = path.join(app.config.themePath, req.params.theme),
       manifestPath = path.join(themeDir, 'manifest.yml'),
       files,
       manifest;
