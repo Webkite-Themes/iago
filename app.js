@@ -35,6 +35,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/oauth/callback', routes.auth.callback);
 app.get('/themes', routes.theme.index);
 app.post('/themes', routes.theme.create);
 app.get('/themes/:theme/preview', routes.theme.preview);

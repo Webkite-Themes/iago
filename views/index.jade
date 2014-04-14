@@ -3,6 +3,12 @@ extends layout
 block content
   script#index(type="text/x-handlebars")
     section#webkite-auth
+      | {{#if currentUser}}
+      | logged in as: {{ currentUser.email }}
+      | <button {{ action logout }} class="webkite-logout">logout</button>
+      | {{else}}
+      | <button {{ action login }} class="webkite-login">login</button>
+      | {{/if}}
     img(src="/images/iago-logo-m.png" width="200" height="200" title="Iago Logo" alt="Logo" style="float:right")
     main {{outlet}}
 

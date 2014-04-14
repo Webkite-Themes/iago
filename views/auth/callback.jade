@@ -6,6 +6,7 @@ html
   body
     p logging you in, you'll be redirected momentarily
     script(src='http://code.jquery.com/jquery-2.1.0.min.js', type='application/javascript')
-    script(src="../javascripts/auth.js" type="application/javascript")
     script(type="application/javascript").
-      WebkiteAuth.callback();
+      var hash = window.location.hash;
+      window.opener.Iago.oauth.trigger('redirect', hash);
+      window.close();
