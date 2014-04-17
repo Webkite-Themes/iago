@@ -46,7 +46,7 @@ exports.index = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  var themeDir = path.join(app.config.themePath, req.params.name),
+  var themeDir = path.join(app.config.themePath, req.body.name),
       manifest = yaml.safeDump({ templates: 'results.handlebars.js' }),
       results = "<p>This is the main 'results' handlebars template. Replace this message with your awesome results view!</p>";
   fs.mkdir(themeDir, function(err) {
@@ -58,7 +58,7 @@ exports.create = function(req, res) {
       if (err) { throw err; }
     });
   });
-  app.themes.push(req.params.name);
+  app.themes.push(req.body.name);
   res.send(app.themes);
 };
 

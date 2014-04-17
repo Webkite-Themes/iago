@@ -1,8 +1,18 @@
 Iago.ThemesController = Ember.ArrayController.extend({
   actions: {
-    previewTheme: function(theme) {
-      Ember.$.get(['', 'themes', theme, 'preview'].join('/'), function(data) {
-        Ember.$(data).appendTo('body');
+    create: function() {
+      var name = this.get('newThemeName'),
+          controller = this;
+      if (!name.trim()) { return; }
+
+      var theme = Iago.Theme.create({
+        org: 'iago',
+        name: name,
+        version: 'master'
+      });
+      Ember.$.post('/themes', { name: name }, function(data) {
+        controller.content.addObject(theme);
+        console.log(controller.content);
       });
     }
   }

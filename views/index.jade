@@ -17,4 +17,5 @@ block content
     a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
     br
     | {{/each}}
+    | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
 
