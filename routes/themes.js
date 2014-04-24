@@ -121,6 +121,8 @@ exports.theme = function(req, res) {
   rsvp.hash(files).then(function(results) {
     results = results.templates.concat(results.partials);
     _(results).each(function(template) {
+      template.content = template.content.replace(/<!--[\s\S]*?-->/g, '');
+      template.content = template.content.replace(/\s+/g, ' ');
       template.content = hbs.precompile(template.content);
     });
     res.set('Content-Type', 'application/javascript');
