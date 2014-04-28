@@ -1,17 +1,11 @@
-doctype html
-html
-  head
-    title Auth
-  body
-    script(type='application/javascript').
-      var windowLocation =
-        'http://localhost:9000/iago/new?state=#{tempId}&callback_url=#{callbackURL}&redirect_uri=#{redirectUri}'
-      //window.location = windowLocation;
-    h3 We have Registered your Iago Client
-    p Now we need to save your client id: #{clientId}
-    p It will be saved to your ".iago/config.json" file.
-    p Is this okay?
-    form(method='post')
-      input(type='hidden', name='clientId', value='#{clientId}')
-      input(type='submit', value='Yes')
-      button No
+extends auth-layout
+
+block content
+  h3 We have Registered your Iago Client
+  p Now we need to save your client id: #{clientId}
+  p It will be saved to your ".iago/config.json" file.
+  p Is this okay?
+  form(method='post')
+    input(type='hidden', name='clientId', value='#{clientId}')
+    input(type='submit', value='Yes')
+    button No

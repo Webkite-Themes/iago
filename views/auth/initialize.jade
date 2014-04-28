@@ -1,12 +1,7 @@
-doctype html
-html
-  head
-    title Auth
-  body
-    script(type='application/javascript').
-      var windowLocation =
-        'http://localhost:9000/iago/new?state=#{tempId}&callback_url=#{callbackUrl}&redirect_uri=#{redirectUri}'
-      //window.location = windowLocation;
-    h3 We need to register your Iago client. Is this okay?
-    button(onclick='window.location = windowLocation;') Yes
-    button(onclick='window.location = "/"') No
+extends auth-layout
+
+block content
+  h3 We need to register your Iago client.
+  p To proceed, please click this link:
+  p
+    a(href='http://localhost:9000/iago/new?state=#{tempId}&callback_url=#{callbackUrl}&redirect_uri=#{redirectUri}') Register Iago
