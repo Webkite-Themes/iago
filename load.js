@@ -7,9 +7,12 @@ var fs = require('fs'),
 
 var themePath,
     configPath,
+    loadConfig,
     folders,
     themes,
-    config;
+    config,
+    save,
+    started = false;
 
 themePath = (function() {
   var segments = process.cwd().split(path.sep);
@@ -21,24 +24,34 @@ themePath = (function() {
 })();
 
 configPath = path.join(themePath, '.iago', 'config.json');
-try {
-  fs.mkdirSync(path.join(themePath, '.iago'));
-} catch(err) {
-  // swallow error if it's just '.iago directory already exists'
-  if (!(err.code === 'EEXIST' && err.path === path.dirname(configPath))) {
-    throw err;
+
+loadConfig = function() {
+  if (!started) {
+    try {
+      fs.mkdirSync(path.join(themePath, '.iago'));
+    } catch(err) {
+      // swallow error if it's just '.iago directory already exists'
+      if (!(err.code === 'EEXIST' && err.path === path.dirname(configPath))) {
+        throw err;
+      }
+    } finally {
+      // yeah this is ugly, all the try/catch
+      try {
+        config = JSON.parse(fs.readFileSync(configPath));
+      } catch(err) {
+        if (err.code === 'ENOENT') {
+          fs.writeFileSync(configPath, JSON.stringify({}));
+          config = {};
+        } else { throw err; }
+      }
+    }
+    return config;
+  } else {
+    started = true;
+    return config;
   }
-} finally {
-  // yeah this is ugly, all the try/catch
-  try {
-    config = JSON.parse(fs.readFileSync(configPath));
-  } catch(err) {
-    if (err.code === 'ENOENT') {
-      fs.writeFileSync(configPath, JSON.stringify({}));
-      config = {};
-    } else { throw err; }
-  }
-}
+};
+loadConfig();
 
 config.themePath = themePath;
 
@@ -52,7 +65,15 @@ themes = _(folders).reject(function(file) {
   return reject || !fs.existsSync(path.join(themePath, file, 'manifest.yml'));
 }).value();
 
+// save config
+save = function(newConfig) {
+  var fileName = path.join(themePath, '.iago', 'config.json');
+  fs.writeFileSync(fileName, JSON.stringify(newConfig, null, 2));
+  config = newConfig;
+};
+
 module.exports = {
-  config: config,
-  themes: themes
+  config: loadConfig,
+  themes: themes,
+  save: save
 };

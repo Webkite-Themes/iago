@@ -1,6 +1,5 @@
 var request = require('request'),
-    config = require('../load'),
-    saveConfig = require('../save-config').save;
+    saveConfig = require('../load').save;
 
 exports.callback = function(req, res){
   res.render('auth/callback');
