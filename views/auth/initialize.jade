@@ -1,0 +1,7 @@
+extends auth-layout
+
+block content
+  h3 We need to register your Iago client.
+  p To proceed, please click this link:
+  p
+    a(href='http://localhost:9000/iago/new?state=#{tempId}&callback_url=#{callbackUrl}&redirect_uri=#{redirectUri}') Register Iago
