@@ -45,9 +45,9 @@ loadConfig = function() {
         } else { throw err; }
       }
     }
+    started = true;
     return config;
   } else {
-    started = true;
     return config;
   }
 };
