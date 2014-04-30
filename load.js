@@ -65,11 +65,12 @@ themes = _(folders).reject(function(file) {
   return reject || !fs.existsSync(path.join(themePath, file, 'manifest.yml'));
 }).value();
 
-// save config
 save = function(newConfig) {
+  config = _.merge(config, newConfig, function(prev, next) {
+    return next ? next : prev;
+  });
   var fileName = path.join(themePath, '.iago', 'config.json');
-  fs.writeFileSync(fileName, JSON.stringify(newConfig, null, 2));
-  config = newConfig;
+  fs.writeFileSync(fileName, JSON.stringify(config, null, 2));
 };
 
 module.exports = {
