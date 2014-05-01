@@ -3,6 +3,7 @@ var app = require('../load');
 var themes = app.themes;
 var themeRoutes = require('./themes');
 var authRoutes = require('./auth');
+var useCases = require('./useCases');
 
 /*
  * GET home page.
@@ -24,3 +25,4 @@ exports.index = function(req, res){
 
 exports.theme = themeRoutes;
 exports.auth = authRoutes;
+exports.useCases = useCases;
