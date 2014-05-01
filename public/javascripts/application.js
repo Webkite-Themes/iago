@@ -20,7 +20,7 @@ Iago.ApplicationRoute = Ember.Route.extend({
       Iago.oauth.authorize();
       Iago.oauth.on('success', function(stateObj) {
         Ember.$.ajax({
-          url: 'http://localhost:9000/me',
+          url: 'http://' + authUrl + '/me',
           headers: {
             'X-Webkite-Client-ID': Ember.OAuth2.config.webkite.clientId,
             'Accept': 'application/vnd.webkite.auth.v1+json',

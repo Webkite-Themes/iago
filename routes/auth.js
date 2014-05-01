@@ -1,5 +1,6 @@
 var request = require('request'),
-    saveConfig = require('../load').save;
+    app = require('../load'),
+    saveConfig = app.save;
 
 exports.callback = function(req, res){
   res.render('auth/callback');
@@ -9,7 +10,8 @@ exports.initialize = function(req, res){
   res.render('auth/initialize', {
     tempId: _makeId.generate(),
     callbackUrl: encodeURIComponent('http://localhost:1460/finalize'),
-    redirectUri: encodeURIComponent('http://localhost:1460/oauth/callback')
+    redirectUri: encodeURIComponent('http://localhost:1460/oauth/callback'),
+    authUrl: app.config().authUrl || 'localhost:9000'
   });
 };
 
@@ -19,7 +21,7 @@ exports.finalize = function(req, res){
       'Accept': 'application/vnd.webkite.auth.v1+json',
       'Authorization': 'Bearer ' + _makeId.value
     },
-    url: 'http://localhost:9000/iago',
+    url: 'http://' + app.config().authUrl + '/iago',
     method: 'POST'
   };
 

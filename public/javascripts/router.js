@@ -23,12 +23,12 @@ Iago.UseCasesRoute = Ember.Route.extend({
   model: function() {
     var publicUseCases = new Promise(function(resolve, reject) {
       Ember.$.ajax({
-        url: 'http://localhost:4569/use_cases',
+        url: 'http://' + adminUrl + '/use_cases',
         type: 'GET',
         headers: {
           'X-Webkite-Client-ID': Ember.OAuth2.config.webkite.clientId,
-        'Accept': 'application/vnd.webkite.config+json; version=1',
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token-webkite')).access_token
+          'Accept': 'application/vnd.webkite.config+json; version=1',
+          'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token-webkite')).access_token
         }
       }).then(function(data) {
         var use_cases = [];
