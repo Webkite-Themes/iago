@@ -19,3 +19,9 @@ block content
     | {{/each}}
     | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
 
+  script(type="text/x-handlebars", data-template-name="use_cases")
+    | <ul>{{#each}}
+    |   <li><h4>{{name}}</h4>
+    |   </li>
+    | {{/each}}</ul>
+
