@@ -20,8 +20,18 @@ block content
     | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
 
   script(type="text/x-handlebars", data-template-name="use_cases")
-    | <ul>{{#each}}
-    |   <li><h4>{{name}}</h4>
-    |   </li>
-    | {{/each}}</ul>
+    section
+      section#published_use_cases.use-case-list
+        h2 Published Use Cases
+        | <ul>{{#each publicUseCases}}
+        |   <li><h4>{{name}}</h4>
+        |   </li>
+        | {{/each}}</ul>
+      section#local_use_cases.use-case-list
+        h2 Work in Progress
+        | <ul>{{#each localUseCases}}
+        |   <li><h4>{{name}}</h4>
+        |   </li>
+        | {{/each}}</ul>
+
 

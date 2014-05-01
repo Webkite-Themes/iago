@@ -21,24 +21,35 @@ Iago.ThemesRoute = Ember.Route.extend({
 
 Iago.UseCasesRoute = Ember.Route.extend({
   model: function() {
-    return Ember.$.ajax({
-      url: 'http://localhost:4569/use_cases',
-      type: 'GET',
-      headers: {
-        'X-Webkite-Client-ID': Ember.OAuth2.config.webkite.clientId,
+    var publicUseCases = new Promise(function(resolve, reject) {
+      Ember.$.ajax({
+        url: 'http://localhost:4569/use_cases',
+        type: 'GET',
+        headers: {
+          'X-Webkite-Client-ID': Ember.OAuth2.config.webkite.clientId,
         'Accept': 'application/vnd.webkite.config+json; version=1',
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token-webkite')).access_token
-      }
-    }).then(function(data) {
-      var use_cases = [];
-      $.each(data.use_cases, function(i, use_case) {
-        use_cases.push(Iago.UseCase.create({
-          name: use_case.name,
-          description: use_case.description,
-          icon: use_case.icon
-        }));
+        }
+      }).then(function(data) {
+        var use_cases = [];
+        $.each(data.use_cases, function(i, use_case) {
+          use_cases.push(Iago.UseCase.create({
+            name: use_case.name,
+            description: use_case.description,
+            icon: use_case.icon
+          }));
+        });
+        resolve(use_cases);
       });
-      return use_cases;
     });
+    var localUseCases = new Promise(function(resolve, reject) {
+      resolve([]);
+    });
+    return new Promise(function(resolve, reject) {
+      Promise.all([publicUseCases, localUseCases])
+        .then(function(useCases) {
+          resolve({ publicUseCases: useCases[0], localUseCases: useCases[1] });
+        });
+      });
   }
 });
