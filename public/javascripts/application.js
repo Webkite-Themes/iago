@@ -15,7 +15,7 @@ Iago.ApplicationRoute = Ember.Route.extend({
   },
   actions: {
     login: function() {
-      var controller = this.controllerFor('index');
+      var controller = this.controllerFor('application');
       Iago.oauth = Ember.OAuth2.create({ providerId: 'webkite' });
       Iago.oauth.authorize();
       Iago.oauth.on('success', function(stateObj) {
@@ -43,7 +43,7 @@ Iago.ApplicationRoute = Ember.Route.extend({
       });
     },
     logout: function() {
-      var controller = this.controllerFor('index');
+      var controller = this.controllerFor('application');
       controller.set('currentUser', null);
       localStorage.removeItem('webkiteAuthData');
       localStorage.removeItem('token-webkite');
