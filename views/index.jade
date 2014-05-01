@@ -6,6 +6,10 @@ block content
       | {{#if currentUser}}
       | logged in as: {{ currentUser.email }}
       | <button {{ action logout }} class="webkite-logout">logout</button>
+      | <br />
+      | {{link-to "index" "index"}}<br />
+      | {{link-to "themes" "themes"}}<br />
+      | {{link-to "use_cases" "use_cases"}}
       | {{else}}
       | <button {{ action login }} class="webkite-login">login</button>
       | {{/if}}
@@ -13,11 +17,13 @@ block content
     main {{outlet}}
 
   script(type="text/x-handlebars", data-template-name="themes")
-    | {{#each}}
-    a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
-    br
-    | {{/each}}
-    | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
+    section
+      hr
+      | {{#each}}
+      a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
+      br
+      | {{/each}}
+      | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
 
   script(type="text/x-handlebars", data-template-name="use_cases")
     section
