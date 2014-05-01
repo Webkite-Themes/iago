@@ -6,10 +6,13 @@ var fs = require('fs'),
     rsvp = require('rsvp');
 
 var themePath,
+    configFolder,
     configPath,
     loadConfig,
-    folders,
+    themeFolders,
     themes,
+    useCaseFiles,
+    useCases,
     config,
     save,
     started = false;
@@ -23,7 +26,8 @@ themePath = (function() {
   }
 })();
 
-configPath = path.join(themePath, '.iago', 'config.json');
+configFolder = path.join(themePath, '.iago');
+configPath = path.join(configFolder, 'config.json');
 
 loadConfig = function() {
   if (!started) {
@@ -55,14 +59,21 @@ loadConfig();
 
 config.themePath = themePath;
 
-folders = fs.readdirSync(themePath);
+themeFolders = fs.readdirSync(themePath);
 
-themes = _(folders).reject(function(file) {
+themes = _(themeFolders).reject(function(file) {
   var stats = fs.statSync(path.join(themePath, file)),
       isTheme = false,
       reject = false;
   reject = (stats.isDirectory() ? false : true);
   return reject || !fs.existsSync(path.join(themePath, file, 'manifest.yml'));
+}).value();
+
+useCaseFiles = fs.readdirSync(configFolder);
+
+useCases = _(useCaseFiles).reject(function(file) {
+  var stats = fs.statSync(path.join(configFolder, file));
+  return stats.isDirectory() || (file == 'config.json');
 }).value();
 
 save = function(newConfig) {
@@ -76,5 +87,6 @@ save = function(newConfig) {
 module.exports = {
   config: loadConfig,
   themes: themes,
+  useCases: useCases,
   save: save
 };
