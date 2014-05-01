@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  script#index(type="text/x-handlebars")
+  script(type="text/x-handlebars", data-template-name="application")
     section#webkite-auth
       | {{#if currentUser}}
       | logged in as: {{ currentUser.email }}
@@ -12,7 +12,7 @@ block content
     img(src="/images/iago-logo-m.png" width="200" height="200" title="Iago Logo" alt="Logo" style="float:right")
     main {{outlet}}
 
-  script#themes(type="text/x-handlebars", data-template-name="themes")
+  script(type="text/x-handlebars", data-template-name="themes")
     | {{#each}}
     a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
     br

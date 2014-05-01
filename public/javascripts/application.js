@@ -2,11 +2,11 @@
 
 window.Iago = Ember.Application.create();
 
-Iago.IndexController = Ember.Controller.extend({
+Iago.ApplicationController = Ember.Controller.extend({
   currentUser: null,
 });
 
-Iago.IndexRoute = Ember.Route.extend({
+Iago.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller) {
     var userData = localStorage.getItem('webkiteAuthData');
     if (userData) {
