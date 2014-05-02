@@ -43,7 +43,20 @@ Iago.UseCasesRoute = Ember.Route.extend({
       });
     });
     var localUseCases = new Promise(function(resolve, reject) {
-      resolve([]);
+      Ember.$.ajax({
+        url: 'http://localhost:1460/use_cases',
+        type: 'GET'
+      }).then(function(data) {
+        var use_cases = [];
+        $.each(data, function(i, use_case) {
+          use_cases.push(Iago.UseCase.create({
+            name: use_case.name,
+            description: use_case.description,
+            icon: use_case.icon
+          }));
+        });
+        resolve(use_cases);
+      });
     });
     return new Promise(function(resolve, reject) {
       Promise.all([publicUseCases, localUseCases])
