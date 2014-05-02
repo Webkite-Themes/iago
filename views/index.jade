@@ -39,5 +39,16 @@ block content
         |   <li><h4>{{name}}</h4>
         |   </li>
         | {{/each}}</ul>
+        | {{link-to "new" "use_cases.new"}}
+        | {{outlet}}
 
+  script(type="text/x-handlebars", data-template-name="use_cases/new")
+    br
+    | {{input type="text" placeholder="new use case name" value=newUseCaseName}}
+    br
+    | {{textarea placeholder="description" value=newUseCaseDescription}}
+    br
+    | {{input type="text" placeholder="icon" value=newUseCaseIcon}}
+    br
+    | <button {{action "create"}}>Create New</button>
 

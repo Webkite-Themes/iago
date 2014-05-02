@@ -2,7 +2,9 @@ Iago.Router.map(function() {
   this.resource('themes', function() {
     this.route('preview', { path: '/:theme/preview' });
   });
-  this.resource('use_cases');
+  this.resource('use_cases', function() {
+    this.route('new');
+  });
 });
 
 Iago.ThemesRoute = Ember.Route.extend({
