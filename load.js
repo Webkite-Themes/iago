@@ -12,6 +12,7 @@ var themePath,
     themeFolders,
     themes,
     useCaseFiles,
+    useCaseNames,
     useCases,
     config,
     save,
@@ -71,10 +72,23 @@ themes = _(themeFolders).reject(function(file) {
 
 useCaseFiles = fs.readdirSync(configFolder);
 
-useCases = _(useCaseFiles).reject(function(file) {
+useCaseNames = _(useCaseFiles).reject(function(file) {
   var stats = fs.statSync(path.join(configFolder, file));
   return stats.isDirectory() || (file == 'config.json');
 }).value();
+
+useCases = _(useCaseNames).map(function(useCaseFileName) {
+  var useCase = null;
+  try {
+    useCase = JSON.parse(fs.readFileSync(path.join(configFolder, useCaseFileName)));
+  } catch (err) {
+    // we don't want to break on bad config files, just don't load them
+    // TODO: tell someone that a config file is not parseable
+    console.log(err);
+  }
+  return useCase;
+}).filter().value();
+
 
 save = function(newConfig) {
   config = _.merge(config, newConfig, function(prev, next) {
