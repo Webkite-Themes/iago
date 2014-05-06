@@ -5,18 +5,28 @@ var fs = require('fs'),
     _ = require('lodash');
     //rsvp = require('rsvp');
 
-var _save,
+var _convertSpacesToSomething,
+    _save,
     saveConfig,
     saveConfigWithPath,
     overwriteConfig,
     overwriteConfigWithPath,
     loadConfig,
     loadConfigWithPath,
+    loadConfigWithPathConverted,
     deleteConfigKey;
+
+_convertSpacesToSomething = function(string, convertTo) {
+  var delimeter = '-';
+  if (convertTo && convertTo != ' ') {
+    delimeter = convertTo;
+  }
+  return string.replace(/\ /g, delimeter);
+};
 
 _save = function(config, fileLocation) {
   // TODO: convert _save to a promise
-  fs.writeFileSync(fileLocation, JSON.stringify(config, null, 2));
+  fs.writeFileSync(_convertSpacesToSomething(fileLocation), JSON.stringify(config, null, 2));
   return config;
 };
 
@@ -28,7 +38,7 @@ saveConfig = function(newConfig, oldConfig, fileLocation) {
 };
 
 saveConfigWithPath = function(newConfig, oldConfig, filePath, fileName) {
-  return saveConfig(newConfig, oldConfig, path.join(filePath, fileName));
+  return saveConfig(newConfig, oldConfig, path.join(filePath, _convertSpacesToSomething(fileName)));
 };
 
 overwriteConfig = function(config, fileLocation) {
@@ -36,7 +46,7 @@ overwriteConfig = function(config, fileLocation) {
 };
 
 overwriteConfigWithPath = function(config, filePath, fileName) {
-  return overwriteConfig(config, path.join(filePath, fileName));
+  return overwriteConfig(config, path.join(filePath, _convertSpacesToSomething(fileName)));
 };
 
 loadConfig = function(fileLocation) {
@@ -56,6 +66,10 @@ loadConfigWithPath = function(filePath, fileName) {
   return loadConfig(path.join(filePath, fileName));
 };
 
+loadConfigWithPathConverted = function(filePath, fileName) {
+  return loadConfigWithPath(filePath, _convertSpacesToSomething(fileName));
+};
+
 deleteConfigKey = function(configKey, fileLocation) {
   // TODO: convert deleteConfigKey to a promise
   var config = loadConfig(fileLocation);
@@ -70,5 +84,6 @@ module.exports = {
   overwriteConfigWithPath: overwriteConfigWithPath,
   loadConfig: loadConfig,
   loadConfigWithPath: loadConfigWithPath,
+  loadConfigWithPathConverted: loadConfigWithPathConverted,
   deleteConfigKey: deleteConfigKey
 };
