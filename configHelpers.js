@@ -1,13 +1,17 @@
 'use strict';
 
 var fs = require('fs'),
+    path = require('path'),
     _ = require('lodash');
     //rsvp = require('rsvp');
 
 var _save,
     saveConfig,
+    saveConfigWithPath,
     overwriteConfig,
+    overwriteConfigWithPath,
     loadConfig,
+    loadConfigWithPath,
     deleteConfigKey;
 
 _save = function(config, fileLocation) {
@@ -23,8 +27,16 @@ saveConfig = function(newConfig, oldConfig, fileLocation) {
   return _save(config, fileLocation);
 };
 
+saveConfigWithPath = function(newConfig, oldConfig, filePath, fileName) {
+  return saveConfig(newConfig, oldConfig, path.join(filePath, fileName));
+};
+
 overwriteConfig = function(config, fileLocation) {
   return _save(config, fileLocation);
+};
+
+overwriteConfigWithPath = function(config, filePath, fileName) {
+  return overwriteConfig(config, path.join(filePath, fileName));
 };
 
 loadConfig = function(fileLocation) {
@@ -40,6 +52,10 @@ loadConfig = function(fileLocation) {
   return config;
 };
 
+loadConfigWithPath = function(filePath, fileName) {
+  return loadConfig(path.join(filePath, fileName));
+};
+
 deleteConfigKey = function(configKey, fileLocation) {
   // TODO: convert deleteConfigKey to a promise
   var config = loadConfig(fileLocation);
@@ -49,7 +65,10 @@ deleteConfigKey = function(configKey, fileLocation) {
 
 module.exports = {
   saveConfig: saveConfig,
+  saveConfigWithPath: saveConfigWithPath,
   overwriteConfig: overwriteConfig,
+  overwriteConfigWithPath: overwriteConfigWithPath,
   loadConfig: loadConfig,
+  loadConfigWithPath: loadConfigWithPath,
   deleteConfigKey: deleteConfigKey
 };
