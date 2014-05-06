@@ -3,7 +3,8 @@
 var fs = require('fs'),
     path = require('path'),
     _ = require('lodash'),
-    rsvp = require('rsvp');
+    rsvp = require('rsvp'),
+    h = require('./configHelpers');
 
 var themePath,
     configFolder,
@@ -59,6 +60,7 @@ loadConfig = function() {
 loadConfig();
 
 config.themePath = themePath;
+config.configPath = configFolder;
 
 themeFolders = fs.readdirSync(themePath);
 
@@ -78,24 +80,12 @@ useCaseNames = _(useCaseFiles).reject(function(file) {
 }).value();
 
 useCases = _(useCaseNames).map(function(useCaseFileName) {
-  var useCase = null;
-  try {
-    useCase = JSON.parse(fs.readFileSync(path.join(configFolder, useCaseFileName)));
-  } catch (err) {
-    // we don't want to break on bad config files, just don't load them
-    // TODO: tell someone that a config file is not parseable
-    console.log(err);
-  }
-  return useCase;
+  return h.loadConfig(path.join(configFolder, useCaseFileName));
 }).filter().value();
 
 
 save = function(newConfig) {
-  config = _.merge(config, newConfig, function(prev, next) {
-    return next ? next : prev;
-  });
-  var fileName = path.join(themePath, '.iago', 'config.json');
-  fs.writeFileSync(fileName, JSON.stringify(config, null, 2));
+  h.saveConfig(newConfig, config, configPath);
 };
 
 module.exports = {
