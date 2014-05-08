@@ -16,12 +16,13 @@ exports.initialize = function(req, res){
 };
 
 exports.finalize = function(req, res){
+  var authUrl = app.config().authUrl || 'localhost:9000';
   var options = {
     headers: {
       'Accept': 'application/vnd.webkite.auth.v1+json',
       'Authorization': 'Bearer ' + _makeId.value
     },
-    url: 'http://' + app.config().authUrl + '/iago',
+    url: 'http://' + authUrl + '/iago',
     method: 'POST'
   };
 
