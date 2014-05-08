@@ -17,3 +17,17 @@ exports.create = function(req, res){
   }
 };
 
+exports.update = function(req, res){
+  if (req.params.useCase != req.body.name) {
+    res.send(409, 'Conflict: Use Case does not match Use Case\'s Name');
+  } else {
+    var useCaseConfig = h.loadConfigWithPathConverted(app.config().configPath, req.params.useCase + '.json');
+    if (useCaseConfig) {
+      var updatedConfig = h.saveConfigWithPath(req.body, useCaseConfig, app.config().configPath, req.body.name + '.json');
+      res.json(updatedConfig);
+    } else {
+      res.send(404, 'Config not found');
+    }
+  }
+};
+

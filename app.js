@@ -48,6 +48,7 @@ app.get('/themes/iago/:theme/:version/manifest.json', routes.theme.manifest);
 
 app.get('/use_cases', routes.useCases.index);
 app.post('/use_cases', routes.useCases.create);
+app.post('/use_cases/:useCase', routes.useCases.update);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Iago is listening on port ' + app.get('port'));
