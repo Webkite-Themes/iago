@@ -54,7 +54,10 @@ Iago.UseCasesRoute = Ember.Route.extend({
           use_cases.push(Iago.UseCase.create({
             name: use_case.name,
             description: use_case.description,
-            icon: use_case.icon
+            icon: use_case.icon,
+            spreadsheetKey: use_case.spreadsheetKey,
+            datasetUuid: use_case.datasetUuid,
+            themes: use_case.themes
           }));
         });
         resolve(use_cases);
