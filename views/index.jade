@@ -27,27 +27,18 @@ block content
 
   script(type="text/x-handlebars", data-template-name="use_cases")
     section
-      section#published_use_cases.use-case-list
-        h2 Published Use Cases
-        | <ul>{{#each publicUseCases}}
-        |   <li><h4>{{name}}</h4>
-        |   </li>
-        | {{/each}}</ul>
-      section#local_use_cases.use-case-list
-        h2 Work in Progress
-        | {{render "local_use_cases" localUseCases}}
-        | {{link-to "new" "use_cases.new"}}
+      h2 Use Cases
+      ul
+        | {{#each useCase in model}}
+        | <li><span>{{useCase.name}}</span>
+        | {{#if useCase.spreadsheetKey}}
+        | <button {{action "sync" useCase}}>Sync</button>
+        | <a {{bind-attr href="useCase.spreadsheetUrl"}} target="_blank">Open Spreadsheet</a>
+        | {{/if}}
+        | </li>
+        | {{/each}}
         | {{outlet}}
-
-  script(type="text/x-handlebars", data-template-name="local_use_cases")
-    | <ul>{{#each useCase in model}}
-    |   <li><span>{{useCase.name}}</span>
-    |     <button {{action "publish" useCase}}>Publish</button>
-    |     {{#if useCase.spreadsheetUrl}}
-    |     <a {{bind-attr href="useCase.spreadsheetUrl"}} target="_blank">Open spreadsheet</a>
-    |     {{/if}}
-    |   </li>
-    | {{/each}}</ul>
+        | {{link-to "new" "use_cases.new"}}
 
   script(type="text/x-handlebars", data-template-name="use_cases/new")
     br
@@ -58,4 +49,5 @@ block content
     | {{input type="text" placeholder="icon" value=newUseCaseIcon}}
     br
     | <button {{action "create"}}>Create New</button>
+    br
 

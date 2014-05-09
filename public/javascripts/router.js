@@ -66,7 +66,12 @@ Iago.UseCasesRoute = Ember.Route.extend({
     return new Promise(function(resolve, reject) {
       Promise.all([publicUseCases, localUseCases])
         .then(function(useCases) {
-          resolve({ publicUseCases: useCases[0], localUseCases: useCases[1] });
+          resolve(useCases[0].concat(useCases[1]).sort(function(a, b) {
+            // sort lists alphabetically by name
+            var aSort = a.name.toLowerCase(),
+                bSort = b.name.toLowerCase();
+            return (aSort < bSort) ? -1 : (aSort > bSort) ? 1 : 0;
+          }));
         });
       });
   }
