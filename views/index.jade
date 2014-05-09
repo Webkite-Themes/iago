@@ -35,12 +35,16 @@ block content
         | {{/each}}</ul>
       section#local_use_cases.use-case-list
         h2 Work in Progress
-        | <ul>{{#each localUseCases}}
-        |   <li><h4>{{name}}</h4>
-        |   </li>
-        | {{/each}}</ul>
+        | {{render "local_use_cases" localUseCases}}
         | {{link-to "new" "use_cases.new"}}
         | {{outlet}}
+
+  script(type="text/x-handlebars", data-template-name="local_use_cases")
+    | <ul>{{#each useCase in model}}
+    |   <li><span>{{useCase.name}}</span>
+    |     <button {{action "publish" useCase}}>Publish</button>
+    |   </li>
+    | {{/each}}</ul>
 
   script(type="text/x-handlebars", data-template-name="use_cases/new")
     br
