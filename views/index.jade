@@ -43,6 +43,9 @@ block content
     | <ul>{{#each useCase in model}}
     |   <li><span>{{useCase.name}}</span>
     |     <button {{action "publish" useCase}}>Publish</button>
+    |     {{#if useCase.spreadsheetUrl}}
+    |     <a {{bind-attr href="useCase.spreadsheetUrl"}} target="_blank">Open spreadsheet</a>
+    |     {{/if}}
     |   </li>
     | {{/each}}</ul>
 

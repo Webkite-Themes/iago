@@ -6,5 +6,9 @@ Iago.UseCase = Ember.Object.extend({
   description: null,
   spreadsheetKey: null,
   datasetUuid: null,
-  themes: []
+  themes: [],
+
+  spreadsheetUrl: function() {
+    return "https://docs.google.com/a/webkite.com/spreadsheet/ccc?key=" + this.get('spreadsheetKey');
+  }.property('spreadsheetKey')
 });
