@@ -17,28 +17,46 @@ block content
     main {{outlet}}
 
   script(type="text/x-handlebars", data-template-name="themes")
-    section
-      hr
-      | {{#each}}
-      a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
-      br
-      | {{/each}}
-      | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
+    hr
+    | {{#each}}
+    a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
+    br
+    | {{/each}}
+    | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
 
   script(type="text/x-handlebars", data-template-name="use_cases")
     section
       h2 Use Cases
       ul
         | {{#each useCase in model}}
-        | <li><span>{{useCase.name}}</span>
+        | <li>
         | {{#if useCase.spreadsheetKey}}
+        | <span>{{#link-to 'use_case' useCase.name}}{{useCase.name}}{{/link-to}}</span>
         | <button {{action "sync" useCase}}>Sync</button>
         | <a {{bind-attr href="useCase.spreadsheetUrl"}} target="_blank">Open Spreadsheet</a>
+        | {{else}}
+        | <span>{{useCase.name}}</span>
         | {{/if}}
         | </li>
         | {{/each}}
-        | {{outlet}}
-        | {{link-to "new" "use_cases.new"}}
+      | {{outlet}}
+      | {{link-to "new use case" "use_cases.new"}}
+
+  script(type="text/x-handlebars", data-template-name="use_case")
+    div
+      h3 use case:
+        | {{name}}
+      p description:
+        | {{description}}
+      p icon:
+        | {{icon}}
+      p spreadsheetKey:
+        | {{spreadsheetKey}}
+      p datasetUuid:
+        | {{datasetUuid}}
+      p
+        | {{themes}}
+      | {{outlet}}
 
   script(type="text/x-handlebars", data-template-name="use_cases/new")
     br

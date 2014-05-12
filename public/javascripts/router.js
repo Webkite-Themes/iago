@@ -1,9 +1,11 @@
 Iago.Router.map(function() {
-  this.resource('themes', function() {
-    this.route('preview', { path: '/:theme/preview' });
-  });
   this.resource('use_cases', function() {
     this.route('new');
+    this.resource('use_case', { path: '/:use_case_name' }, function() {
+      this.resource('themes', function() {
+        this.route('preview', { path: '/:theme/preview' });
+      });
+    });
   });
 });
 
@@ -74,5 +76,20 @@ Iago.UseCasesRoute = Ember.Route.extend({
           }));
         });
       });
+  }
+});
+
+Iago.UseCaseRoute = Ember.Route.extend({
+  model: function(params) {
+    return Ember.$.getJSON('/use_cases/' + params.use_case_name).then(function(useCase) {
+      return Iago.UseCase.create({
+        name: useCase.name,
+        description: useCase.description,
+        icon: useCase.icon,
+        spreadsheetKey: useCase.spreadsheetKey,
+        datasetUuid: useCase.datasetUuid,
+        themes: useCase.themes
+      });
+    });
   }
 });
