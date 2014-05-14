@@ -11,20 +11,30 @@ Iago.Router.map(function() {
 
 Iago.ThemesRoute = Ember.Route.extend({
   model: function() {
-    return Ember.$.getJSON('/themes').then(function(data) {
-      return data.map(function(theme) {
-        return Iago.Theme.create({
-          org: 'iago',
-          name: theme,
-          version: 'master'
+    if (!Iago.ThemeModel.value.length) {
+      var _this = this;
+      return new Promise(function(resolve, reject) {
+        Ember.$.getJSON('/themes').then(function(data) {
+          Iago.ThemeModel.value = data.map(function(theme) {
+            return Iago.Theme.create({
+              org: 'iago',
+              name: theme,
+              version: 'master'
+            });
+          });
+          resolve(Iago.ThemeModel.findAll(_this.modelFor('use_case').themes));
         });
       });
-    });
+    }
+    return Iago.ThemeModel.findAll(this.modelFor('use_case').themes);
   }
 });
 
 Iago.UseCasesRoute = Ember.Route.extend({
   model: function() {
+    if (Iago.UseCaseModel.value.length > 0)
+      return Iago.UseCaseModel.value;
+
     var publicUseCases = new Promise(function(resolve, reject) {
       Ember.$.ajax({
         url: 'http://' + adminUrl + '/use_cases',
@@ -67,29 +77,21 @@ Iago.UseCasesRoute = Ember.Route.extend({
     });
     return new Promise(function(resolve, reject) {
       Promise.all([publicUseCases, localUseCases])
-        .then(function(useCases) {
-          resolve(useCases[0].concat(useCases[1]).sort(function(a, b) {
-            // sort lists alphabetically by name
-            var aSort = a.name.toLowerCase(),
-                bSort = b.name.toLowerCase();
-            return (aSort < bSort) ? -1 : (aSort > bSort) ? 1 : 0;
-          }));
+      .then(function(useCases) {
+        Iago.UseCaseModel.value = useCases[0].concat(useCases[1]).sort(function(a, b) {
+          // sort lists alphabetically by name
+          var aSort = a.name.toLowerCase(),
+              bSort = b.name.toLowerCase();
+          return (aSort < bSort) ? -1 : (aSort > bSort) ? 1 : 0;
         });
+        resolve(Iago.UseCaseModel.value);
       });
+    });
   }
 });
 
 Iago.UseCaseRoute = Ember.Route.extend({
   model: function(params) {
-    return Ember.$.getJSON('/use_cases/' + params.use_case_name).then(function(useCase) {
-      return Iago.UseCase.create({
-        name: useCase.name,
-        description: useCase.description,
-        icon: useCase.icon,
-        spreadsheetKey: useCase.spreadsheetKey,
-        datasetUuid: useCase.datasetUuid,
-        themes: useCase.themes
-      });
-    });
+    return Iago.UseCaseModel.find(params.use_case_name);
   }
 });
