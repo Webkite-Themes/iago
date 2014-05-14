@@ -1,10 +1,8 @@
 Iago.Router.map(function() {
   this.resource('use_cases', function() {
     this.route('new');
-    this.resource('use_case', { path: '/:use_case_name' }, function() {
-      this.resource('themes', function() {
-        this.route('preview', { path: '/:theme/preview' });
-      });
+    this.resource('use_case', { path: ':use_case_name' }, function() {
+      this.resource('themes');
     });
   });
 });
