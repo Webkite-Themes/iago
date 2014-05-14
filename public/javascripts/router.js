@@ -9,27 +9,6 @@ Iago.Router.map(function() {
   });
 });
 
-Iago.ThemesRoute = Ember.Route.extend({
-  model: function() {
-    if (!Iago.ThemeModel.value.length) {
-      var _this = this;
-      return new Promise(function(resolve, reject) {
-        Ember.$.getJSON('/themes').then(function(data) {
-          Iago.ThemeModel.value = data.map(function(theme) {
-            return Iago.Theme.create({
-              org: 'iago',
-              name: theme,
-              version: 'master'
-            });
-          });
-          resolve(Iago.ThemeModel.findAll(_this.modelFor('use_case').themes));
-        });
-      });
-    }
-    return Iago.ThemeModel.findAll(this.modelFor('use_case').themes);
-  }
-});
-
 Iago.UseCasesRoute = Ember.Route.extend({
   model: function() {
     if (Iago.UseCaseModel.value.length > 0)
@@ -93,5 +72,26 @@ Iago.UseCasesRoute = Ember.Route.extend({
 Iago.UseCaseRoute = Ember.Route.extend({
   model: function(params) {
     return Iago.UseCaseModel.find(params.use_case_name);
+  }
+});
+
+Iago.ThemesRoute = Ember.Route.extend({
+  model: function() {
+    if (!Iago.ThemeModel.value.length) {
+      var _this = this;
+      return new Promise(function(resolve, reject) {
+        Ember.$.getJSON('/themes').then(function(data) {
+          Iago.ThemeModel.value = data.map(function(theme) {
+            return Iago.Theme.create({
+              org: 'iago',
+              name: theme,
+              version: 'master'
+            });
+          });
+          resolve(Iago.ThemeModel.findAll(_this.modelFor('use_case').themes));
+        });
+      });
+    }
+    return Iago.ThemeModel.findAll(this.modelFor('use_case').themes);
   }
 });

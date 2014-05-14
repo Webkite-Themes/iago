@@ -15,14 +15,6 @@ block content
     img(src="/images/iago-logo-m.png" width="200" height="200" title="Iago Logo" alt="Logo" style="float:right")
     main {{outlet}}
 
-  script(type="text/x-handlebars", data-template-name="themes")
-    hr
-    | {{#each}}
-    a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
-    br
-    | {{/each}}
-    | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
-
   script(type="text/x-handlebars", data-template-name="use_cases")
     section
       h2 Use Cases
@@ -41,6 +33,17 @@ block content
       | {{outlet}}
       | {{link-to "new use case" "use_cases.new"}}
 
+  script(type="text/x-handlebars", data-template-name="use_cases/new")
+    br
+    | {{input type="text" placeholder="new use case name" value=newUseCaseName}}
+    br
+    | {{textarea placeholder="description" value=newUseCaseDescription}}
+    br
+    | {{input type="text" placeholder="icon" value=newUseCaseIcon}}
+    br
+    | <button {{action "create"}}>Create New</button>
+    br
+
   script(type="text/x-handlebars", data-template-name="use_case")
     div
       h3 use case:
@@ -57,14 +60,11 @@ block content
         | {{themes}}
       | {{outlet}}
 
-  script(type="text/x-handlebars", data-template-name="use_cases/new")
+  script(type="text/x-handlebars", data-template-name="themes")
+    hr
+    | {{#each}}
+    a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
     br
-    | {{input type="text" placeholder="new use case name" value=newUseCaseName}}
-    br
-    | {{textarea placeholder="description" value=newUseCaseDescription}}
-    br
-    | {{input type="text" placeholder="icon" value=newUseCaseIcon}}
-    br
-    | <button {{action "create"}}>Create New</button>
-    br
+    | {{/each}}
+    | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}
 
