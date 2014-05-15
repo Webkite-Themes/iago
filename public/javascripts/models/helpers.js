@@ -90,15 +90,11 @@ ThemeModel.prototype.findAll = function(themeNames) {
 };
 
 ThemeModel.prototype.push = function(theme) {
-  if (!theme.get('useCaseName')) {
+  if (this.find(theme.get('name'))) {
     return false;
   } else {
-    if (this.find(theme.get('themeName'))) {
-      return false;
-    } else {
-      this.value.push(theme);
-      return true;
-    }
+    this.value.push(theme);
+    return true;
   }
 };
 
