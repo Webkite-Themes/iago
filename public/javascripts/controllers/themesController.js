@@ -12,10 +12,13 @@ Iago.ThemesController = Ember.ArrayController.extend({
         version: 'master'
       });
 
-      Ember.$.post('/themes', { name: name }, function(data) {
-        controller.content.addObject(theme);
-        console.log(controller.content);
-      });
+      if (!Iago.ThemeModel.find(name)) {
+        Ember.$.post('/themes', { name: name }, function(data) {
+          console.log(controller.content);
+        });
+      }
+
+      controller.content.addObject(theme);
 
       Iago.UseCaseModel.addTheme(this.get('controllers.use_case.name'), name);
       Iago.UseCaseModel.save(this.get('controllers.use_case'));
