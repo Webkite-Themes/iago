@@ -31,6 +31,20 @@ UseCaseModel.prototype.push = function(useCase) {
   }
 };
 
+UseCaseModel.prototype.addTheme = function(useCaseName, themeName) {
+  // This is not the right way to add something to an array in Ember,
+  // but it works and allows ember to properly observe the array.
+  // (addObject and pushObject didn't seem to work)
+  var useCase = this.find(useCaseName);
+  if (useCase.get('themes')) {
+    var newThemeArray = useCase.get('themes').toArray();
+    newThemeArray.push(themeName);
+    useCase.set('themes', newThemeArray);
+  } else {
+    useCase.set('themes', [themeName]);
+  }
+};
+
 UseCaseModel.prototype.update = function(updatedProperties) {
   if (!updatedProperties.name) {
     return false;

@@ -1,4 +1,5 @@
 Iago.ThemesController = Ember.ArrayController.extend({
+  needs: 'use_case',
   actions: {
     create: function() {
       var name = this.get('newThemeName'),
@@ -10,10 +11,14 @@ Iago.ThemesController = Ember.ArrayController.extend({
         name: name,
         version: 'master'
       });
+
       Ember.$.post('/themes', { name: name }, function(data) {
         controller.content.addObject(theme);
         console.log(controller.content);
       });
+
+      Iago.UseCaseModel.addTheme(this.get('controllers.use_case.name'), name);
+      Iago.UseCaseModel.save(this.get('controllers.use_case'));
     }
   }
 });
