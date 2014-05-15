@@ -31,10 +31,18 @@ UseCaseModel.prototype.push = function(useCase) {
   }
 };
 
-UseCaseModel.prototype.update = function(properties) {
+UseCaseModel.prototype.update = function(updatedProperties) {
+  if (!updatedProperties.name) {
+    return false;
+  } else {
+    var useCaseModel = this.find(updatedProperties.name);
+    useCaseModel.setProperties(updatedProperties);
+    return this.save(useCaseModel);
+  }
 };
 
-UseCaseModel.prototype.save = function() {
+UseCaseModel.prototype.save = function(useCase) {
+  return Ember.$.post('/use_cases/' + useCase.get('name'), useCase.getProperties('name', 'description', 'icon', 'spreadsheetKey', 'themes'));
 };
 
 // Theme Model
