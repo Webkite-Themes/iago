@@ -16,6 +16,7 @@ Iago.ThemesController = Ember.ArrayController.extend({
         Ember.$.post('/themes', { name: name }, function(data) {
           console.log(controller.content);
         });
+        Iago.ThemeModel.push(theme);
       }
 
       controller.content.addObject(theme);
