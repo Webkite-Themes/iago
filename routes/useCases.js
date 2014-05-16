@@ -36,7 +36,7 @@ exports.update = function(req, res){
   } else {
     var useCaseConfig = h.loadConfigWithPathConverted(app.config().configPath, req.params.useCaseName + '.json');
     if (useCaseConfig) {
-      var updatedConfig = h.saveConfigWithPath(req.body, useCaseConfig, app.config().configPath, req.body.name + '.json');
+      var updatedConfig = h.saveConfigWithPath(useCaseConfig, req.body, app.config().configPath, req.body.name + '.json');
       res.json(updatedConfig);
     } else {
       res.send(404, 'Config not found');

@@ -30,15 +30,15 @@ _save = function(config, fileLocation) {
   return config;
 };
 
-saveConfig = function(newConfig, oldConfig, fileLocation) {
+saveConfig = function(oldConfig, newConfig, fileLocation) {
   var config = _.merge(oldConfig, newConfig, function(prev, next) {
     return next ? next : prev;
   });
   return _save(config, fileLocation);
 };
 
-saveConfigWithPath = function(newConfig, oldConfig, filePath, fileName) {
-  return saveConfig(newConfig, oldConfig, path.join(filePath, _convertSpacesToSomething(fileName)));
+saveConfigWithPath = function(oldConfig, newConfig, filePath, fileName) {
+  return saveConfig(oldConfig, newConfig, path.join(filePath, _convertSpacesToSomething(fileName)));
 };
 
 overwriteConfig = function(config, fileLocation) {
