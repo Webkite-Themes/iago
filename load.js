@@ -85,7 +85,7 @@ useCases = _(useCaseNames).map(function(useCaseFileName) {
 
 
 save = function(newConfig) {
-  h.saveConfig(config, newConfig, configPath);
+  config = h.saveConfig(config, newConfig, configPath);
 };
 
 module.exports = {

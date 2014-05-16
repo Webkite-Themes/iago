@@ -31,7 +31,8 @@ _save = function(config, fileLocation) {
 };
 
 saveConfig = function(oldConfig, newConfig, fileLocation) {
-  var config = _.merge(oldConfig, newConfig, function(prev, next) {
+  // _.merge overwrites the first object it is given, causing unknown side effects.
+  var config = _.merge({}, oldConfig, newConfig, function(prev, next) {
     return next ? next : prev;
   });
   return _save(config, fileLocation);
