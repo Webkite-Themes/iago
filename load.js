@@ -61,6 +61,11 @@ loadConfig = function() {
 };
 loadConfig();
 
+if (!config.authUrl)
+  config.authUrl = 'auth.webkite.org';
+if (!config.adminUrl)
+  config.adminUrl = 'admin.bestrv.info';
+
 config.themePath = themePath;
 config.configPath = configFolder;
 

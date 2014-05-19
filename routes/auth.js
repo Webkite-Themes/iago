@@ -11,18 +11,18 @@ exports.initialize = function(req, res){
     tempId: _makeId.generate(),
     callbackUrl: encodeURIComponent('http://localhost:1460/finalize'),
     redirectUri: encodeURIComponent('http://localhost:1460/oauth/callback'),
-    authUrl: app.config().authUrl || 'localhost:9000'
+    authUrl: app.config().authUrl
   });
 };
 
 exports.finalize = function(req, res){
-  var authUrl = app.config().authUrl || 'localhost:9000';
+  var authUrl = app.config().authUrl;
   var options = {
     headers: {
       'Accept': 'application/vnd.webkite.auth.v1+json',
       'Authorization': 'Bearer ' + _makeId.value
     },
-    url: 'http://' + authUrl + '/iago',
+    url: 'https://' + authUrl + '/iago',
     method: 'POST'
   };
 

@@ -15,8 +15,8 @@ exports.index = function(req, res){
       title: 'Iago (WebKite)',
       themes: themes,
       clientId: app.config().clientId,
-      authUrl: app.config().authUrl || 'localhost:9000',
-      adminUrl: app.config().adminUrl || 'localhost:4596'
+      authUrl: app.config().authUrl,
+      adminUrl: app.config().adminUrl
     });
   } else {
     res.redirect('/initialize');
