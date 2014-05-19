@@ -62,8 +62,8 @@ block content
 
   script(type="text/x-handlebars", data-template-name="themes")
     hr
-    | {{#each}}
-    a(href="/themes/{{unbound name}}/preview" target="_blank") {{ name }}
+    | {{#each theme in model}}
+    a(href="/preview/{{unbound controllers.use_case.name}}/{{unbound theme.name}}" target="_blank") {{theme.name}}
     br
     | {{/each}}
     | {{input type="text" id="new-theme" placeholder="new theme name" value=newThemeName action="create"}}

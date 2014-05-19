@@ -41,7 +41,6 @@ app.get('/finalize', routes.auth.finalize);
 app.post('/finalize', routes.auth.saveConfig);
 app.get('/themes', routes.theme.index);
 app.post('/themes', routes.theme.create);
-app.get('/themes/:theme/preview', routes.theme.preview);
 app.get('/themes/iago/:theme/:version/all.js', routes.theme.theme);
 app.get('/themes/iago/:theme/:version/assets/:file', routes.theme.asset);
 app.get('/themes/iago/:theme/:version/manifest.json', routes.theme.manifest);
@@ -50,6 +49,8 @@ app.get('/use_cases', routes.useCases.index);
 app.post('/use_cases', routes.useCases.create);
 app.get('/use_cases/:useCaseName', routes.useCases.get);
 app.post('/use_cases/:useCaseName', routes.useCases.update);
+
+app.get('/preview/:useCaseName/:theme', routes.theme.preview);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Iago is listening on port ' + app.get('port'));

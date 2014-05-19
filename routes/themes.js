@@ -63,7 +63,14 @@ exports.create = function(req, res) {
 };
 
 exports.preview = function(req, res) {
-  res.render('themes/preview', { theme: req.params.theme });
+  var useCase = app.useCases().filter(function(useCase) {
+    return useCase.name.toLowerCase() === req.params.useCaseName.toLowerCase();
+  });
+  if (useCase.length === 1) {
+    res.render('themes/preview', { theme: req.params.theme, datasetUuid: useCase[0].datasetUuid });
+  } else {
+    res.send(404, "Use Case not found");
+  }
 };
 
 exports.asset = function(req, res){
