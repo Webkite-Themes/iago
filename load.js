@@ -15,6 +15,8 @@ var themePath,
     useCaseFiles,
     useCaseNames,
     useCases,
+    getUseCases,
+    updateUseCases,
     config,
     save,
     started = false;
@@ -83,6 +85,13 @@ useCases = _(useCaseNames).map(function(useCaseFileName) {
   return h.loadConfig(path.join(configFolder, useCaseFileName));
 }).filter().value();
 
+getUseCases = function() {
+  return useCases;
+};
+
+updateUseCases = function(updatedUseCases) {
+  useCases = updatedUseCases;
+};
 
 save = function(newConfig) {
   config = h.saveConfig(config, newConfig, configPath);
@@ -91,6 +100,7 @@ save = function(newConfig) {
 module.exports = {
   config: loadConfig,
   themes: themes,
-  useCases: useCases,
+  useCases: getUseCases,
+  updateUseCases: updateUseCases,
   save: save
 };

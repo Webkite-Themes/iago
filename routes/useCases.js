@@ -1,9 +1,8 @@
 var app = require('../load'),
-    useCases = app.useCases,
     h = require('../configHelpers');
 
 exports.index = function(req, res){
-  res.json(app.useCases);
+  res.json(app.useCases());
 };
 
 exports.create = function(req, res){
@@ -12,14 +11,16 @@ exports.create = function(req, res){
       res.send(409, 'Conflict: Use Case Already Exists');
   } else {
     h.overwriteConfigWithPath(req.body, app.config().configPath, req.body.name + '.json');
-    app.useCases.push(req.body);
-    res.json(app.useCases);
+    var updatedUseCases = app.useCases();
+    updatedUseCases.push(req.body);
+    app.updateUseCases(updatedUseCases);
+    res.json(app.useCases());
   }
 };
 
 // param: useCaseName
 exports.get = function(req, res){
-  var useCase = app.useCases.filter(function(useCase) {
+  var useCase = app.useCases().filter(function(useCase) {
     return useCase.name.toLowerCase() === req.params.useCaseName.toLowerCase();
   });
   if (useCase.length === 1) {
