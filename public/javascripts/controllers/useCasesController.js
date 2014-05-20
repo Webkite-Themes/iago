@@ -22,7 +22,7 @@ Iago.UseCasesController = Ember.ArrayController.extend({
       function startPublishAndGetJobId(spreadsheetKey) {
         return new Promise(function(resolve, reject) {
           Ember.$.ajax({
-            url: 'http://' + adminUrl + '/spreadsheets/' + spreadsheetKey,
+            url: adminUrl + '/spreadsheets/' + spreadsheetKey,
             type: 'POST',
             headers: adminHeaders
           }).done(function(data) {
@@ -41,7 +41,7 @@ Iago.UseCasesController = Ember.ArrayController.extend({
         return new Promise(function(resolve, reject) {
           function keepAsking(keyAndJobId) {
             Ember.$.ajax({
-              url: 'http://' + adminUrl + '/spreadsheets/' + keyAndJobId.key + '/' + keyAndJobId.jid,
+              url: adminUrl + '/spreadsheets/' + keyAndJobId.key + '/' + keyAndJobId.jid,
               type: 'GET',
               headers: adminHeaders
             }).done(function(data) {
@@ -107,7 +107,7 @@ Iago.UseCasesNewController = Ember.ArrayController.extend({
       function getSpreadsheetTemplateId() {
         return new Promise(function(resolve, reject) {
           Ember.$.ajax({
-            url: 'http://' + adminUrl + '/spreadsheet_templates',
+            url: adminUrl + '/spreadsheet_templates',
             type: 'GET',
             headers: adminHeaders
           }).done(function(data) {
@@ -127,7 +127,7 @@ Iago.UseCasesNewController = Ember.ArrayController.extend({
       function copySpreadsheetAndGetSpreadsheetKey(spreadsheetTemplateId) {
         return new Promise(function(resolve, reject) {
           Ember.$.ajax({
-            url: 'http://' + adminUrl + '/spreadsheets',
+            url: adminUrl + '/spreadsheets',
             type: 'POST',
             headers: adminHeaders,
             data: {'spreadsheet_template_id': spreadsheetTemplateId},

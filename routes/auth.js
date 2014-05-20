@@ -22,7 +22,7 @@ exports.finalize = function(req, res){
       'Accept': 'application/vnd.webkite.auth.v1+json',
       'Authorization': 'Bearer ' + _makeId.value
     },
-    url: 'https://' + authUrl + '/iago',
+    url: authUrl + '/iago',
     method: 'POST'
   };
 

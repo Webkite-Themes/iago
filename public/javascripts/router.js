@@ -14,7 +14,7 @@ Iago.UseCasesRoute = Ember.Route.extend({
 
     var publicUseCases = new Promise(function(resolve, reject) {
       Ember.$.ajax({
-        url: 'http://' + adminUrl + '/use_cases',
+        url: adminUrl + '/use_cases',
         type: 'GET',
         headers: {
           'X-Webkite-Client-ID': Ember.OAuth2.config.webkite.clientId,
