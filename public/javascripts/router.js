@@ -8,6 +8,12 @@ Iago.Router.map(function() {
 });
 
 Iago.UseCasesRoute = Ember.Route.extend({
+  beforeModel: function() {
+    Ember.$('#use_cases_link').append('<img class="loading-img" src="/images/loading.gif" />');
+  },
+  afterModel: function() {
+    Ember.$('#use_cases_link .loading-img').remove();
+  },
   model: function() {
     if (Iago.UseCaseModel.value.length > 0)
       return Iago.UseCaseModel.value;

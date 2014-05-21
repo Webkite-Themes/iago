@@ -10,5 +10,8 @@ Iago.UseCase = Ember.Object.extend({
 
   spreadsheetUrl: function() {
     return "https://docs.google.com/a/webkite.com/spreadsheet/ccc?key=" + this.get('spreadsheetKey');
-  }.property('spreadsheetKey')
+  }.property('spreadsheetKey'),
+  dashName: function() {
+    return this.get('name').replace(/\ /g, '-');
+  }.property('name')
 });

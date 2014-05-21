@@ -10,11 +10,14 @@ Iago.UseCasesController = Ember.ArrayController.extend({
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token-webkite')).access_token
       };
 
+      startLoading('use_case_' + useCase.get('dashName'));
+
       startPublishAndGetJobId(useCase.get('spreadsheetKey'))
       .then(askForDatasetUuidUntilGiven)
       .then(saveDatasetUuid)
-      .then(function(data) { console.log(data); })
+      .then(function(data) { endLoading('use_case_' + useCase.get('dashName')); })
       .catch(function(error) {
+        endLoading('use_case_' + useCase.get('dashName'));
         console.log('ERROR:');
         console.log(error);
       });
@@ -89,15 +92,19 @@ Iago.UseCasesNewController = Ember.ArrayController.extend({
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token-webkite')).access_token
       };
 
+      startLoading('new_use_case');
+
       getSpreadsheetTemplateId()
       .then(copySpreadsheetAndGetSpreadsheetKey)
       .then(createEmberUseCaseObject)
       .then(saveUseCase)
       .then(function(allLocalUseCases) {
+        endLoading('new_use_case');
         controller.transitionToRoute('use_cases');
         return console.log(allLocalUseCases);
       })
       .catch(function(error) {
+        endLoading('new_use_case');
         // TODO: properly handle the error
         console.log('ERROR:');
         console.log(error);
@@ -166,3 +173,11 @@ Iago.UseCasesNewController = Ember.ArrayController.extend({
     }
   }
 });
+
+function startLoading(tagId) {
+  Ember.$('#' + tagId).append('<img class="loading-img" src="/images/loading.gif" />');
+}
+
+function endLoading(tagId) {
+  Ember.$('#' + tagId + ' .loading-img').remove();
+}

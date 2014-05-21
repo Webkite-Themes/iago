@@ -8,7 +8,8 @@ block content
       | <button {{ action logout }} class="webkite-logout">logout</button>
       | <br />
       | {{link-to "index" "index"}}<br />
-      | {{link-to "use_cases" "use_cases"}}
+      span#use_cases_link
+        | {{link-to "use_cases" "use_cases"}}
       | {{else}}
       | <button {{ action login }} class="webkite-login">login</button>
       | {{/if}}
@@ -24,6 +25,7 @@ block content
         | {{#if useCase.spreadsheetKey}}
         | <span>{{#link-to 'themes' useCase.name}}{{useCase.name}}{{/link-to}}</span>
         | <button {{action "sync" useCase}}>Sync</button>
+        | <span id='use_case_{{unbound useCase.dashName}}'></span>
         | <a {{bind-attr href="useCase.spreadsheetUrl"}} target="_blank">Open Spreadsheet</a>
         | {{else}}
         | <span>{{useCase.name}}</span>
@@ -42,6 +44,7 @@ block content
     | {{input type="text" placeholder="icon" value=newUseCaseIcon}}
     br
     | <button {{action "create"}}>Create New</button>
+    span#new_use_case
     br
 
   script(type="text/x-handlebars", data-template-name="use_case")
