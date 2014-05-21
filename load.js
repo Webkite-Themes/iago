@@ -12,8 +12,6 @@ var themePath,
     loadConfig,
     themeFolders,
     themes,
-    useCaseFiles,
-    useCaseNames,
     useCases,
     getUseCases,
     updateUseCases,
@@ -79,24 +77,22 @@ themes = _(themeFolders).reject(function(file) {
   return reject || !fs.existsSync(path.join(themePath, file, 'manifest.yml'));
 }).value();
 
-useCaseFiles = fs.readdirSync(configFolder);
-
-useCaseNames = _(useCaseFiles).reject(function(file) {
-  var stats = fs.statSync(path.join(configFolder, file));
-  return stats.isDirectory() || (file == 'config.json');
-}).value();
-
-useCases = _(useCaseNames).map(function(useCaseFileName) {
-  return h.loadConfig(path.join(configFolder, useCaseFileName));
-}).filter().value();
-
 getUseCases = function() {
   return useCases;
 };
 
-updateUseCases = function(updatedUseCases) {
-  useCases = updatedUseCases;
+updateUseCases = function() {
+  var useCaseNames = _(fs.readdirSync(configFolder)).reject(function(file) {
+    var stats = fs.statSync(path.join(configFolder, file));
+    return stats.isDirectory() || (file == 'config.json');
+  }).value();
+
+  useCases = _(useCaseNames).map(function(useCaseFileName) {
+    return h.loadConfig(path.join(configFolder, useCaseFileName));
+  }).filter().value();
 };
+
+updateUseCases();
 
 save = function(newConfig) {
   config = h.saveConfig(config, newConfig, configPath);

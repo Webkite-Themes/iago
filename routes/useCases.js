@@ -11,9 +11,7 @@ exports.create = function(req, res){
       res.send(409, 'Conflict: Use Case Already Exists');
   } else {
     h.overwriteConfigWithPath(req.body, app.config().configPath, req.body.name + '.json');
-    var updatedUseCases = app.useCases();
-    updatedUseCases.push(req.body);
-    app.updateUseCases(updatedUseCases);
+    app.updateUseCases();
     res.json(app.useCases());
   }
 };
@@ -38,6 +36,7 @@ exports.update = function(req, res){
     var useCaseConfig = h.loadConfigWithPathConverted(app.config().configPath, req.params.useCaseName + '.json');
     if (useCaseConfig) {
       var updatedConfig = h.saveConfigWithPath(useCaseConfig, req.body, app.config().configPath, req.body.name + '.json');
+      app.updateUseCases();
       res.json(updatedConfig);
     } else {
       res.send(404, 'Config not found');
