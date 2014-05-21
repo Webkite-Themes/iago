@@ -2,7 +2,6 @@ doctype html
 html
   head
     title= theme + ' preview'
-    link(rel='stylesheet', href='/stylesheets/style.css')
   body
     script#webkite-results(type='application/javascript').
       var webkiteConfig = {
@@ -22,8 +21,7 @@ html
         var wk = document.createElement('script');
         wk.type = 'application/javascript';
         wk.src = '//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js';
-        //wk.setAttribute('data-main', 'http://jafar.webkite.org/stable/webkite-embed.min.js');
-        wk.setAttribute('data-main', 'http://localhost/~greg/jafar/dist/webkite-embed.min.js');
+        wk.setAttribute('data-main', 'http://jafar.webkite.org/stable/webkite-embed.min.js');
         wk.async = true;
         document.body.appendChild(wk);
       })();
