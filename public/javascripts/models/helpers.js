@@ -56,7 +56,7 @@ UseCaseModel.prototype.update = function(updatedProperties) {
 };
 
 UseCaseModel.prototype.save = function(useCase) {
-  return Ember.$.post('/use_cases/' + useCase.get('name'), useCase.getProperties('name', 'description', 'icon', 'spreadsheetKey', 'themes'));
+  return Ember.$.post('/use_cases/' + useCase.get('name'), useCase.getProperties('name', 'description', 'icon', 'datasetUuid', 'spreadsheetKey', 'themes'));
 };
 
 // Theme Model

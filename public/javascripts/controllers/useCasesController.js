@@ -64,14 +64,7 @@ Iago.UseCasesController = Ember.ArrayController.extend({
 
       function saveDatasetUuid(datasetUuid) {
         useCase.set('datasetUuid', datasetUuid);
-        var useCaseProperties = useCase.getProperties('name', 'description', 'icon', 'spreadsheetKey', 'datasetUuid', 'themes');
-        return new Promise(function(resolve, reject) {
-          Ember.$.post('/use_cases/' + name, useCaseProperties, function(data) {
-            resolve(data);
-          }).done(resolve).fail(function(jqXHR, textStatus, errorThrown) {
-            reject({'from': 'saving dataset uuid', 'jqXHR': jqXHR, 'textStatus': textStatus, 'errorThrown': errorThrown});
-          });
-        });
+        return Iago.UseCaseModel.update(useCase.getProperties('name', 'description', 'icon', 'spreadsheetKey', 'datasetUuid', 'themes'));
       }
     }
   }
