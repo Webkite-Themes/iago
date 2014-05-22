@@ -4,6 +4,7 @@ window.Iago = Ember.Application.create();
 
 Iago.ApplicationController = Ember.Controller.extend({
   currentUser: null,
+  savedTransition: null
 });
 
 Iago.ApplicationRoute = Ember.Route.extend({
@@ -37,6 +38,10 @@ Iago.ApplicationRoute = Ember.Route.extend({
             Ember.Logger.error(err);
           }
         });
+        if (controller.get('savedTransition')) {
+          controller.get('savedTransition').retry();
+          controller.set('savedTransition', null);
+        }
       });
       Iago.oauth.on('error', function(err) {
         Ember.Logger.error(err);

@@ -8,6 +8,21 @@ Iago.Router.map(function() {
 });
 
 Iago.UseCasesRoute = Ember.Route.extend({
+  actions: {
+    error: function(reason, transition) {
+      if (reason.status === 401) {
+        Ember.$('#use_cases_link .loading-img').remove();
+        var appController = this.controllerFor('application');
+        appController.set('savedTransition', transition);
+        appController.set('currentUser', null);
+        alert('You must Log In');
+        this.transitionTo('/');
+      }
+      else {
+        alert('Something went wrong');
+      }
+    }
+  },
   beforeModel: function() {
     Ember.$('#use_cases_link').append('<img class="loading-img" src="/images/loading.gif" />');
   },
@@ -37,6 +52,8 @@ Iago.UseCasesRoute = Ember.Route.extend({
           }));
         });
         resolve(use_cases);
+      }).fail(function(error) {
+        reject(error);
       });
     });
     var localUseCases = new Promise(function(resolve, reject) {
@@ -68,6 +85,8 @@ Iago.UseCasesRoute = Ember.Route.extend({
           return (aSort < bSort) ? -1 : (aSort > bSort) ? 1 : 0;
         });
         resolve(Iago.UseCaseModel.value);
+      }).catch(function(error) {
+        reject(error);
       });
     });
   }
