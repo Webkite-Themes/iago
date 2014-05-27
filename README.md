@@ -32,3 +32,19 @@ npm start iago
 ```
 
 Then open a browser and visit [localhost:1460](http://localhost:1460) to get started!
+
+# Development
+
+1.  Clone the repo.
+
+2.  Install node.
+
+3.  Install prerequisites:
+
+        cd iago
+        npm install
+
+4.  Fire up the app:
+
+        npm app.js
+
