@@ -46,5 +46,5 @@ Then open a browser and visit [localhost:1460](http://localhost:1460) to get sta
 
 4.  Fire up the app:
 
-        npm app.js
+        node app.js
 
